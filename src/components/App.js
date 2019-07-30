@@ -11,7 +11,7 @@ import {
 
 const App = () => {
   return (
-    <div class="ui container">
+    <div className="ui container">
       <BrowserRouter>
         <Header />
         <Route path="/" exact component={StreamList} />

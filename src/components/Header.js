@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import GoogleAuth from "./GoogleAuth";
-import { connect } from "react-redux";
 
 const Header = () => {
   return (

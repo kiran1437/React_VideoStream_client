@@ -1,22 +1,38 @@
 import React from "react";
 import { Field, reduxForm } from "redux-form";
+import { connect } from "react-redux";
+import { createStream } from "../../actions";
 
 class StreamCreate extends React.Component {
-  renderInput = ({ input, label }) => {
+  renderInput = ({ input, label, meta }) => {
     return (
-      <div className="field">
+      <div className={`field ${meta.error && meta.touched ? "error" : ""} `}>
         <label>{label}</label>
         <input {...input} />
+        {this.renderError(meta)}
       </div>
     );
   };
-  onSubmit = formValues => {
-    console.log(formValues);
+
+  renderError = ({ error, touched }) => {
+    if (touched === true && error) {
+      console.log(error);
+      return (
+        <div className="ui error message">
+          <div className="header">{error}</div>
+        </div>
+      );
+    }
   };
+
+  onSubmit = formValues => {
+    this.props.createStream(formValues);
+  };
+
   render() {
     return (
       <form
-        className="ui form"
+        className="ui form error"
         onSubmit={this.props.handleSubmit(this.onSubmit)}
       >
         <Field name="title" component={this.renderInput} label="Enter Title" />
@@ -31,4 +47,21 @@ class StreamCreate extends React.Component {
   }
 }
 
-export default reduxForm({ form: "streamcreate" })(StreamCreate);
+const validate = formValues => {
+  const errors = {};
+  if (!formValues.title) {
+    errors.title = "Title cannot be empty";
+  }
+  if (!formValues.description) {
+    errors.description = "Description cannot be empty";
+  }
+
+  return errors;
+};
+
+const formWrapped = reduxForm({ form: "streamcreate", validate })(StreamCreate);
+
+export default connect(
+  null,
+  { createStream }
+)(formWrapped);

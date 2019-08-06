@@ -31,7 +31,9 @@ export const createStream = formValues => async (dispatch, getState) => {
 };
 
 export const fetchStreams = () => async dispatch => {
-  const response = await streamsApi.get("/streams");
+  const response = await streamsApi
+    .get("/streams")
+    .catch(e => console.log("caught" + e));
   dispatch({
     type: FETCH_STREAMS,
     payload: response.data
@@ -39,21 +41,28 @@ export const fetchStreams = () => async dispatch => {
 };
 
 export const fetchStream = id => async dispatch => {
-  const response = await streamsApi.get(``);
+  const response = await streamsApi
+    .get(`/streams/${id}`)
+    .catch(e => console.log("caught" + e));
   dispatch({
     type: FETCH_STREAM,
     payload: response.data
   });
 };
 export const editStream = (id, formValues) => async dispatch => {
-  const response = await streamsApi.put(`streams/${id}`, formValues);
+  const response = await streamsApi
+    .patch(`streams/${id}`, formValues)
+    .catch(e => console.log("caught" + e));
   dispatch({
     type: EDIT_STREAM,
     payload: response.data
   });
+  history.push("/");
 };
 
 export const deleteStream = id => async dispatch => {
-  await streamsApi.delete(`streams/${id}`);
+  await streamsApi
+    .delete(`streams/${id}`)
+    .catch(e => console.log("caught" + e));
   dispatch({ type: DELETE_STREAM, payload: id });
 };

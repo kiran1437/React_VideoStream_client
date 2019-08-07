@@ -1,10 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 import { fetchStream } from "../../actions";
+import VideoPlayer from "./videoPlayer";
 
 class StreamShow extends React.Component {
   componentDidMount() {
-    this.props.fetchStream(this.props.match.params.id);
+    const { id } = this.props.match.params;
+    this.props.fetchStream(id);
   }
   render() {
     if (!this.props.stream) {
@@ -14,6 +16,7 @@ class StreamShow extends React.Component {
 
       return (
         <div>
+          <VideoPlayer id={this.props.match.params.id} />
           <h1>{title}</h1>
           <h5>{description}</h5>
         </div>

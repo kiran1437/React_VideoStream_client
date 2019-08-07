@@ -5,15 +5,17 @@ class VideoPlayer extends React.Component {
   videoRef = React.createRef();
 
   componentDidMount() {
-    const player = flv.createPlayer({
+    this.player = flv.createPlayer({
       type: "flv",
       url: `http://localhost:8000/live/${this.props.id}.flv`
     });
 
-    player.attachMediaElement(this.videoRef.current);
-    player.load();
+    this.player.attachMediaElement(this.videoRef.current);
+    this.player.load();
   }
-
+  componentWillUnmount() {
+    this.player.destroy();
+  }
   render() {
     return (
       <div>
